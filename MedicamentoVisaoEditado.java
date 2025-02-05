@@ -161,7 +161,7 @@ public class MedicamentoVisaoEditado extends JFrame implements ActionListener {
 
     // Carregar os dados dos ComboBoxes de arquivos
     public void carregarDioceses() {
-        File arquivoDioceses = new File("Dioceses.TAB");
+        File arquivoDioceses = new File("Diocese.TAB");
 
         if (arquivoDioceses.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(arquivoDioceses))) {
@@ -176,7 +176,7 @@ public class MedicamentoVisaoEditado extends JFrame implements ActionListener {
     }
 
     public void carregarParoquia() {
-        File arquivoParoquia = new File("Paroquias.TAB");
+        File arquivoParoquia = new File("Paroquia.TAB");
 
         if (arquivoParoquia.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(arquivoParoquia))) {
