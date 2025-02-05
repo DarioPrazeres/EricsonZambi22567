@@ -120,14 +120,34 @@ public class UsuarioVisao extends JFrame implements ActionListener {
                 String email = txtEmail.getText();
                 String password = txtPassword.getText();
                 String username = txtUsername.getText();
-                int idAcesso = Integer.parseInt((String) comboAcesso.getSelectedItem());  // Obtendo o ID de Acesso da ComboBox
-
+                
+                // Verifica se o valor selecionado na comboBox não é nulo
+                String selectedAcesso = (String) comboAcesso.getSelectedItem();
+                if (selectedAcesso == null || selectedAcesso.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Erro: ID de Acesso não pode estar vazio.",
+                            "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
+                    return; // Sai do método se o ID de Acesso não for válido
+                }
+    
+                // Extrai apenas o número do ID da string selecionada (ex.: "1Admin" -> "1")
+                String idAcessoStr = selectedAcesso.replaceAll("[^0-9]", ""); // Remove tudo que não é número
+    
+                // Tenta converter o ID de Acesso para número
+                int idAcesso;
+                try {
+                    idAcesso = Integer.parseInt(idAcessoStr);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Erro: ID de Acesso inválido.",
+                            "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
+                    return; // Sai do método se a conversão falhar
+                }
+    
                 // Cria um novo objeto UsuarioModelo
                 UsuarioModelo usuario = new UsuarioModelo(email, password, username, idAcesso);
-
+    
                 // Salva o objeto UsuarioModelo no arquivo
                 salvarUsuario(usuario);
-
+    
                 // Exibe uma mensagem de sucesso
                 JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!");
                 dispose();
@@ -138,22 +158,26 @@ public class UsuarioVisao extends JFrame implements ActionListener {
             }
         }
     }
+    
 
     // Método para carregar os IDs de Acesso do arquivo Acesso.TAB e preencher o JComboBox
     public void carregarAcessos() {
         File arquivoAcesso = new File("Acesso.TAB");
-
+    
         if (arquivoAcesso.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(arquivoAcesso))) {
                 String linha;
                 while ((linha = reader.readLine()) != null) {
-                    comboAcesso.addItem(linha.trim());  // Adiciona os IDs de Acesso à ComboBox
+                    // Adiciona a linha completa (ex.: "1Admin") à ComboBox
+                    comboAcesso.addItem(linha.trim());
                 }
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar os IDs de Acesso.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
+    
+    
 
     // Método para salvar o usuário no arquivo
     public void salvarUsuario(UsuarioModelo usuario) {
