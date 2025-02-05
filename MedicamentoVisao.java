@@ -13,8 +13,8 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
     private JButton btnSalvar, btnEditar;
 
     String[] origemList = {"Indiano", "Portugues", "Americano"};
-    String[] tipoList = {"Comprimido", "Xarope", "Pomada"};
-    String[] formaFarmaceuticaList = {"Comprimido", "Capsula", "Pó"};
+    String[] tipoList = {"Analgegesic", "Xarope", "Pomada"};
+    String[] formaFarmaceuticaList = {"Comprimido", "Xarope", "Injetavel"};
 
     public MedicamentoVisao() {
         super("Novo Medicamento");
@@ -36,11 +36,11 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
         add(txtQuantidade);
 
         add(new JLabel("Tipo:"));
-        cmbTipo = new JComboBox<>(tipoList);
+        cmbTipo = new JComboBox<>();
         add(cmbTipo);
 
         add(new JLabel("Origem:"));
-        cmbOrigem = new JComboBox<>(origemList);
+        cmbOrigem = new JComboBox<>();
         add(cmbOrigem);
 
         add(new JLabel("Fabricante:"));
@@ -56,7 +56,7 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
         add(txtDescricao);
 
         add(new JLabel("Forma Farmacêutica:"));
-        cmbFormaFarmaceutica = new JComboBox<>(formaFarmaceuticaList);
+        cmbFormaFarmaceutica = new JComboBox<>();
         add(cmbFormaFarmaceutica);
 
         add(new JLabel("Dosagem:"));
@@ -71,6 +71,9 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
         txtPrecoVenda = new JTextField(10);
         add(txtPrecoVenda);
 
+        carregarFormaFarmaceutica();
+        carregarOrigem();
+        carregarTipoMedimento();
         // Botão de salvar
         btnSalvar = new JButton("Salvar");
         add(btnSalvar);
@@ -108,8 +111,8 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
         add(txtQuantidade);
     
         add(new JLabel("Tipo:"));
-        cmbTipo = new JComboBox<>(tipoList);
-        cmbTipo.setSelectedItem(medicamento.getTipo());
+        cmbTipo = new JComboBox<>();
+        //cmbTipo.setSelectedItem(medicamento.getTipo());
         add(cmbTipo);
     
         add(new JLabel("Origem:"));
@@ -146,6 +149,8 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
         txtPrecoVenda = new JTextField(String.valueOf(medicamento.getPrecoVenda()), 10);
         add(txtPrecoVenda);
     
+        carregarTipoMedimento();
+
         // Botão de editar
         btnEditar = new JButton("Salvar Alterações");
         add(btnEditar);
@@ -309,9 +314,50 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar o medicamento: " + e.getMessage());
         }
     }
+
+    public void carregarTipoMedimento() {
+        File arquivoAcesso = new File("TipoMedicamento.TAB");
     
+        if (arquivoAcesso.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(arquivoAcesso))) {
+                String linha;
+                while ((linha = reader.readLine()) != null) {
+                    cmbTipo.addItem(linha.trim());
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Erro ao carregar os IDs de Acesso.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    public void carregarFormaFarmaceutica() {
+        File arquivoAcesso = new File("FormaFarmaceutica.TAB");
     
+        if (arquivoAcesso.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(arquivoAcesso))) {
+                String linha;
+                while ((linha = reader.readLine()) != null) {
+                    cmbFormaFarmaceutica.addItem(linha.trim());
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Erro ao carregar os IDs de Acesso.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     
+    public void carregarOrigem() {
+        File arquivoAcesso = new File("Origem.TAB");
+    
+        if (arquivoAcesso.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(arquivoAcesso))) {
+                String linha;
+                while ((linha = reader.readLine()) != null) {
+                    cmbOrigem.addItem(linha.trim());
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Erro ao carregar os IDs de Acesso.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     public static void main(String[] args) {
         new MedicamentoVisao();
     }

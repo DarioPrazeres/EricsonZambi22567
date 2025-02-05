@@ -69,10 +69,10 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
         menuTabelas.add(origemItem = new JMenuItem("Origem"));
         menuTabelas.add(formaFarmaceuticaItem = new JMenuItem("Forma Farmacêutica"));
         menuTabelas.add(tipoMedicamentoItem = new JMenuItem("Tipo Medicamento"));
-        menuTabelas.add(nacionalidadesItem = new JMenuItem("Nacionalidades"));
-        menuTabelas.add(provinciasItem = new JMenuItem("Provincias"));
-        menuTabelas.add(municipiosItem = new JMenuItem("Municipios"));
-        menuTabelas.add(comunasItem = new JMenuItem("Comunas"));
+        //menuTabelas.add(nacionalidadesItem = new JMenuItem("Nacionalidades"));
+        //menuTabelas.add(provinciasItem = new JMenuItem("Provincias"));
+        //menuTabelas.add(municipiosItem = new JMenuItem("Municipios"));
+        //menuTabelas.add(comunasItem = new JMenuItem("Comunas"));
 
         //adicionar eventos
         acessoItem.addActionListener(this);
