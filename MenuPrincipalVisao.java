@@ -12,7 +12,7 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
     private JMenuBar menuBar;
     private JMenuItem novoUsarioItem, editarUsarioItem, eliminarUsarioItem, listagemUsarioItem;
     private JMenuItem novoFornecedorItem, editarFornecedorItem, eliminarFornecedorItem, listagemFornecedorItem;
-    private JMenuItem paroquiaItem, diocesesItem;
+    private JMenuItem paroquiaItem, diocesesItem, pesquisarParoquiaItem;
 
     public MenuPrincipalVisao() {
         super("Menu Principal");
@@ -77,13 +77,15 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
         //menuTabelas.add(municipiosItem = new JMenuItem("Municipios"));
 
         menuDefesa.add(cadastroItem = new JMenuItem("Cadastro"));
+        menuDefesa.add(pesquisarParoquiaItem = new JMenuItem("Pesquisar Paroquia"));
 
         //adicionar eventos
         acessoItem.addActionListener(this);
         novoMedicamentoItem.addActionListener(this);
         sairItem.addActionListener(this);
         cadastroItem.addActionListener(this);
-        //comunasItem.addActionListener(this);
+        pesquisarParoquiaItem.addActionListener(this);
+
         //nacionalidadesItem.addActionListener(this);
         saidaItem.addActionListener(this);
         entradaIntem.addActionListener(this);
@@ -163,6 +165,9 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
         }
         else if(evt.getSource() == paroquiaItem){
             new ParoquiaVisao();
+        }
+        else if(evt.getSource() == pesquisarParoquiaItem){
+            new PesquisaParoquiaVisao();
         }
     }
 
