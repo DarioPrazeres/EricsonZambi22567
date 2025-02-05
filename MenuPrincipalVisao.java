@@ -47,8 +47,8 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
 
         //menuFicheiro
         menuFicheiro.add(novoMedicamentoItem = new JMenuItem("Novo Medicamento"));
-        menuFicheiro.add(editarMedicamentoItem = new JMenuItem("Editar Medicamento"));
-        menuFicheiro.add(eliminarMedicamentoItem = new JMenuItem("Eliminar Medicamento"));
+        //menuFicheiro.add(editarMedicamentoItem = new JMenuItem("Editar Medicamento"));
+        //menuFicheiro.add(eliminarMedicamentoItem = new JMenuItem("Eliminar Medicamento"));
         menuFicheiro.add(listagemMedicamentoItem = new JMenuItem("Listagens Medicamento"));
         menuFicheiro.addSeparator();
         menuFicheiro.add(sairItem = new JMenuItem("Sair da aplicacao"));
@@ -88,15 +88,34 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent evt) {
+        
         if (evt.getSource() == novoMedicamentoItem) {
             new MedicamentoVisao();
-        } else if (evt.getSource() == listagemMedicamentoItem) {
+        } 
+        else if (evt.getSource() == listagemMedicamentoItem) {
             new InterfaceMedicamento();
         }
-        /*else if (evt.getSource() == causaMorteItem)
-		 	Tabela2.editarNovosItems("Causas de Morte", "Nova Causa");
-		 if (evt.getSource() == sairItem)
-		 	dispose(); */
+        else if(evt.getSource() == saidaItem){
+            new SaidaVisao();
+        }
+        else if(evt.getSource() == entradaIntem){
+            new EntradaVisao();
+        }
+        else if(evt.getSource() == stockItem){
+            new StockVisao();
+        }
+        else if(evt.getSource() == novoUsarioItem){
+            new UsuarioVisao();
+        }    
+        else if(evt.getSource() == listagemUsarioItem){
+            new ListagemUsuarioVisao();
+        }    
+        else if(evt.getSource() == novoFornecedorItem){
+            new FornencedorVisao();
+        }
+        else if (evt.getSource() == listagemFornecedorItem) {
+            new ListagemFornencedorVisao();
+        }
     }
 
     public static void main(String[] args) {

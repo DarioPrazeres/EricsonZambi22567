@@ -1,32 +1,31 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class InterfaceMedicamento extends JFrame {
+public class ListagemUsuarioVisao extends JFrame {
 
-    private static ArrayList<MedicamentoModelo> listaMedicamentos;
+    private static ArrayList<UsuarioModelo> listaUsuarios;
     private JList<String> listaExibicao;
     private DefaultListModel<String> modeloLista;
 
-    public InterfaceMedicamento() {
-        // Carregar medicamentos do arquivo
-        carregarMedicamentos();
+    public ListagemUsuarioVisao() {
+        // Carregar usuários do arquivo
+        carregarUsuarios();
 
         // Configurar a interface gráfica
-        setTitle("Gestão de Medicamentos");
+        setTitle("Gestão de Usuários");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Definir layout
         setLayout(new BorderLayout());
 
-        // Listagem de medicamentos
+        // Listagem de usuários
         modeloLista = new DefaultListModel<>();
-        for (MedicamentoModelo medicamento : listaMedicamentos) {
-            modeloLista.addElement(medicamento.getNome() + " - " + medicamento.getId());
+        for (UsuarioModelo usuario : listaUsuarios) {
+            modeloLista.addElement(usuario.getEmail() + " - " + usuario.getId());
         }
 
         listaExibicao = new JList<>(modeloLista);
@@ -38,31 +37,30 @@ public class InterfaceMedicamento extends JFrame {
         JButton botaoEditar = new JButton("Editar");
         JButton botaoApagar = new JButton("Apagar");
 
-        // Função para editar medicamento
-// Função para editar medicamento
+        // Função para editar usuário
         botaoEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int indiceSelecionado = listaExibicao.getSelectedIndex();
                 if (indiceSelecionado != -1) {
-                    MedicamentoModelo medicamentoSelecionado = listaMedicamentos.get(indiceSelecionado);
-                    new MedicamentoVisao(medicamentoSelecionado);  // Passa o objeto selecionado para a tela de edição
+                    UsuarioModelo usuarioSelecionado = listaUsuarios.get(indiceSelecionado);
+                    new UsuarioVisao(usuarioSelecionado);  // Passa o objeto selecionado para a tela de edição
                 } else {
-                    JOptionPane.showMessageDialog(null, "Selecione um medicamento para editar.");
+                    JOptionPane.showMessageDialog(null, "Selecione um usuário para editar.");
                 }
             }
         });
 
-        // Função para apagar medicamento
+        // Função para apagar usuário
         botaoApagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int indiceSelecionado = listaExibicao.getSelectedIndex();
                 if (indiceSelecionado != -1) {
-                    MedicamentoModelo medicamentoSelecionado = listaMedicamentos.get(indiceSelecionado);
-                    apagarMedicamento(medicamentoSelecionado);
+                    UsuarioModelo usuarioSelecionado = listaUsuarios.get(indiceSelecionado);
+                    apagarUsuario(usuarioSelecionado);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Selecione um medicamento para apagar.");
+                    JOptionPane.showMessageDialog(null, "Selecione um usuário para apagar.");
                 }
             }
         });
@@ -74,10 +72,10 @@ public class InterfaceMedicamento extends JFrame {
         setVisible(true);
     }
 
-    // Método para carregar medicamentos do arquivo
-    private void carregarMedicamentos() {
-        listaMedicamentos = new ArrayList<>();
-        File arquivo = new File("Medicamentos.DAT");
+    // Método para carregar usuários do arquivo
+    private void carregarUsuarios() {
+        listaUsuarios = new ArrayList<>();
+        File arquivo = new File("Usuarios.DAT");
 
         // Verifica se o arquivo existe, se não, cria um novo arquivo vazio
         if (!arquivo.exists()) {
@@ -85,16 +83,16 @@ public class InterfaceMedicamento extends JFrame {
                 arquivo.createNewFile();  // Cria o arquivo vazio se não existir
             } catch (IOException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Erro ao criar o arquivo Medicamento.Dat");
+                JOptionPane.showMessageDialog(null, "Erro ao criar o arquivo Usuarios.Dat");
             }
             return;  // Arquivo criado, mas sem dados (a lista ficará vazia)
         }
 
-        // Se o arquivo existe, tenta carregar os medicamentos
+        // Se o arquivo existe, tenta carregar os usuários
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivo))) {
             while (true) {
-                MedicamentoModelo medicamento = (MedicamentoModelo) ois.readObject();
-                listaMedicamentos.add(medicamento);
+                UsuarioModelo usuario = (UsuarioModelo) ois.readObject();
+                listaUsuarios.add(usuario);
             }
         } catch (EOFException e) {
             // Fim do arquivo (não há mais dados)
@@ -103,51 +101,50 @@ public class InterfaceMedicamento extends JFrame {
         }
     }
 
-    // Método para editar medicamento
-    private void editarMedicamento(MedicamentoModelo medicamento) {
-        // Exemplo de edição: só modificando o nome do medicamento
-        String novoNome = JOptionPane.showInputDialog("Novo nome do medicamento:", medicamento.getNome());
+    // Método para editar usuário
+    private void editarUsuario(UsuarioModelo usuario) {
+        // Exemplo de edição: só modificando o nome do usuário
+        String novoNome = JOptionPane.showInputDialog("Novo nome do usuário:", usuario.getEmail());
         if (novoNome != null && !novoNome.isEmpty()) {
-            medicamento.setNome(novoNome);
+            usuario.setEmail(novoNome);
             atualizarLista();
         }
     }
 
-    // Atualizar a lista de medicamentos na interface
+    // Atualizar a lista de usuários na interface
     private void atualizarLista() {
         modeloLista.clear();
-        for (MedicamentoModelo medicamento : listaMedicamentos) {
-            modeloLista.addElement(medicamento.getNome() + " - " + medicamento.getId());
+        for (UsuarioModelo usuario : listaUsuarios) {
+            modeloLista.addElement(usuario.getEmail() + " - " + usuario.getId());
         }
     }
 
-    private void apagarMedicamento(MedicamentoModelo medicamento) {
-        listaMedicamentos.remove(medicamento);
+    private void apagarUsuario(UsuarioModelo usuario) {
+        listaUsuarios.remove(usuario);
     
-        salvarMedicamentosNoArquivo();
+        salvarUsuariosNoArquivo();
     
         atualizarLista();
     }
 
-    private void salvarMedicamentosNoArquivo() {
+    private void salvarUsuariosNoArquivo() {
         try {
-            File arquivo = new File("Medicamentos.DAT");
+            File arquivo = new File("Usuarios.DAT");
     
-            // Reescrever os dados no arquivo com a lista de medicamentos atualizada
+            // Reescrever os dados no arquivo com a lista de usuários atualizada
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivo))) {
-                for (MedicamentoModelo medicamento : listaMedicamentos) {
-                    oos.writeObject(medicamento);
+                for (UsuarioModelo usuario : listaUsuarios) {
+                    oos.writeObject(usuario);
                 }
             }
     
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao salvar os medicamentos no arquivo.");
+            JOptionPane.showMessageDialog(null, "Erro ao salvar os usuários no arquivo.");
         }
     }
-    
 
     public static void main(String[] args) {
-        new InterfaceMedicamento();
+        new ListagemUsuarioVisao();
     }
 }

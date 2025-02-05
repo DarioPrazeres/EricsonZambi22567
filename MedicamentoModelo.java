@@ -1,7 +1,7 @@
 import java.io.Serializable;
 
-public class Medicamento implements Serializable {
-    private static final long serialVersionUID = 1L; // Serial version UID
+public class MedicamentoModelo implements Serializable {
+    private static final long serialVersionUID = 1L; 
     private static int contador = 0;
 
     private int id, quantidade;
@@ -9,7 +9,7 @@ public class Medicamento implements Serializable {
                    descricao, formaFarmaceutica, dosagem, origem;
     private float precoCompra, precoVenda;
 
-    public Medicamento(
+    public MedicamentoModelo(
         String lote, 
         int quantidade, 
         String nome, 

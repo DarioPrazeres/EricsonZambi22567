@@ -1,32 +1,31 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class InterfaceMedicamento extends JFrame {
+public class ListagemFornecedores extends JFrame {
 
-    private static ArrayList<MedicamentoModelo> listaMedicamentos;
+    private static ArrayList<FornecedorModelo> listaFornecedores;
     private JList<String> listaExibicao;
     private DefaultListModel<String> modeloLista;
 
-    public InterfaceMedicamento() {
-        // Carregar medicamentos do arquivo
-        carregarMedicamentos();
+    public ListagemFornecedores() {
+        // Carregar fornecedores do arquivo
+        carregarFornecedores();
 
         // Configurar a interface gráfica
-        setTitle("Gestão de Medicamentos");
+        setTitle("Gestão de Fornecedores");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Definir layout
         setLayout(new BorderLayout());
 
-        // Listagem de medicamentos
+        // Listagem de fornecedores
         modeloLista = new DefaultListModel<>();
-        for (MedicamentoModelo medicamento : listaMedicamentos) {
-            modeloLista.addElement(medicamento.getNome() + " - " + medicamento.getId());
+        for (FornecedorModelo fornecedor : listaFornecedores) {
+            modeloLista.addElement(fornecedor.getNomeFornecedor() + " - " + fornecedor.getId());
         }
 
         listaExibicao = new JList<>(modeloLista);
@@ -38,31 +37,30 @@ public class InterfaceMedicamento extends JFrame {
         JButton botaoEditar = new JButton("Editar");
         JButton botaoApagar = new JButton("Apagar");
 
-        // Função para editar medicamento
-// Função para editar medicamento
+        // Função para editar fornecedor
         botaoEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int indiceSelecionado = listaExibicao.getSelectedIndex();
                 if (indiceSelecionado != -1) {
-                    MedicamentoModelo medicamentoSelecionado = listaMedicamentos.get(indiceSelecionado);
-                    new MedicamentoVisao(medicamentoSelecionado);  // Passa o objeto selecionado para a tela de edição
+                    FornecedorModelo fornecedorSelecionado = listaFornecedores.get(indiceSelecionado);
+                    new FornecedorVisao(fornecedorSelecionado);  // Passa o objeto selecionado para a tela de edição
                 } else {
-                    JOptionPane.showMessageDialog(null, "Selecione um medicamento para editar.");
+                    JOptionPane.showMessageDialog(null, "Selecione um fornecedor para editar.");
                 }
             }
         });
 
-        // Função para apagar medicamento
+        // Função para apagar fornecedor
         botaoApagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int indiceSelecionado = listaExibicao.getSelectedIndex();
                 if (indiceSelecionado != -1) {
-                    MedicamentoModelo medicamentoSelecionado = listaMedicamentos.get(indiceSelecionado);
-                    apagarMedicamento(medicamentoSelecionado);
+                    FornecedorModelo fornecedorSelecionado = listaFornecedores.get(indiceSelecionado);
+                    apagarFornecedor(fornecedorSelecionado);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Selecione um medicamento para apagar.");
+                    JOptionPane.showMessageDialog(null, "Selecione um fornecedor para apagar.");
                 }
             }
         });
@@ -74,10 +72,10 @@ public class InterfaceMedicamento extends JFrame {
         setVisible(true);
     }
 
-    // Método para carregar medicamentos do arquivo
-    private void carregarMedicamentos() {
-        listaMedicamentos = new ArrayList<>();
-        File arquivo = new File("Medicamentos.DAT");
+    // Método para carregar fornecedores do arquivo
+    private void carregarFornecedores() {
+        listaFornecedores = new ArrayList<>();
+        File arquivo = new File("Fornecedores.DAT");
 
         // Verifica se o arquivo existe, se não, cria um novo arquivo vazio
         if (!arquivo.exists()) {
@@ -85,16 +83,16 @@ public class InterfaceMedicamento extends JFrame {
                 arquivo.createNewFile();  // Cria o arquivo vazio se não existir
             } catch (IOException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Erro ao criar o arquivo Medicamento.Dat");
+                JOptionPane.showMessageDialog(null, "Erro ao criar o arquivo Fornecedores.Dat");
             }
             return;  // Arquivo criado, mas sem dados (a lista ficará vazia)
         }
 
-        // Se o arquivo existe, tenta carregar os medicamentos
+        // Se o arquivo existe, tenta carregar os fornecedores
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivo))) {
             while (true) {
-                MedicamentoModelo medicamento = (MedicamentoModelo) ois.readObject();
-                listaMedicamentos.add(medicamento);
+                FornecedorModelo fornecedor = (FornecedorModelo) ois.readObject();
+                listaFornecedores.add(fornecedor);
             }
         } catch (EOFException e) {
             // Fim do arquivo (não há mais dados)
@@ -103,51 +101,50 @@ public class InterfaceMedicamento extends JFrame {
         }
     }
 
-    // Método para editar medicamento
-    private void editarMedicamento(MedicamentoModelo medicamento) {
-        // Exemplo de edição: só modificando o nome do medicamento
-        String novoNome = JOptionPane.showInputDialog("Novo nome do medicamento:", medicamento.getNome());
+    // Método para editar fornecedor
+    private void editarFornecedor(FornecedorModelo fornecedor) {
+        // Exemplo de edição: só modificando o nome do fornecedor
+        String novoNome = JOptionPane.showInputDialog("Novo nome do fornecedor:", fornecedor.getNomeFornecedor());
         if (novoNome != null && !novoNome.isEmpty()) {
-            medicamento.setNome(novoNome);
+            fornecedor.setNomeFornecedor(novoNome);
             atualizarLista();
         }
     }
 
-    // Atualizar a lista de medicamentos na interface
+    // Atualizar a lista de fornecedores na interface
     private void atualizarLista() {
         modeloLista.clear();
-        for (MedicamentoModelo medicamento : listaMedicamentos) {
-            modeloLista.addElement(medicamento.getNome() + " - " + medicamento.getId());
+        for (FornecedorModelo fornecedor : listaFornecedores) {
+            modeloLista.addElement(fornecedor.getNomeFornecedor() + " - " + fornecedor.getId());
         }
     }
 
-    private void apagarMedicamento(MedicamentoModelo medicamento) {
-        listaMedicamentos.remove(medicamento);
+    private void apagarFornecedor(FornecedorModelo fornecedor) {
+        listaFornecedores.remove(fornecedor);
     
-        salvarMedicamentosNoArquivo();
+        salvarFornecedoresNoArquivo();
     
         atualizarLista();
     }
 
-    private void salvarMedicamentosNoArquivo() {
+    private void salvarFornecedoresNoArquivo() {
         try {
-            File arquivo = new File("Medicamentos.DAT");
+            File arquivo = new File("Fornecedores.DAT");
     
-            // Reescrever os dados no arquivo com a lista de medicamentos atualizada
+            // Reescrever os dados no arquivo com a lista de fornecedores atualizada
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivo))) {
-                for (MedicamentoModelo medicamento : listaMedicamentos) {
-                    oos.writeObject(medicamento);
+                for (FornecedorModelo fornecedor : listaFornecedores) {
+                    oos.writeObject(fornecedor);
                 }
             }
     
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao salvar os medicamentos no arquivo.");
+            JOptionPane.showMessageDialog(null, "Erro ao salvar os fornecedores no arquivo.");
         }
     }
-    
 
     public static void main(String[] args) {
-        new InterfaceMedicamento();
+        new ListagemFornecedores();
     }
 }

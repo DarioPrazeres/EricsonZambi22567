@@ -88,7 +88,7 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    public MedicamentoVisao(Medicamento medicamento) {
+    public MedicamentoVisao(MedicamentoModelo medicamento) {
         super("Editar Medicamento");
     
         // Definindo layout
@@ -206,7 +206,7 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
                 float precoVenda = Float.parseFloat(txtPrecoVenda.getText());
 
                 // Cria um novo objeto Medicamento
-                Medicamento medicamento = new Medicamento(
+                MedicamentoModelo medicamento = new MedicamentoModelo(
                     lote, 
                     quantidade, 
                     nome, 
@@ -238,17 +238,17 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
         }
     }
 
-    public void salvarMedicamento(Medicamento medicamento) {
+    public void salvarMedicamento(MedicamentoModelo medicamento) {
         try {
             File file = new File("Medicamentos.DAT");    
             boolean arquivoExistente = file.exists();
     
-            ArrayList<Medicamento> listaMedicamentosExistentes = new ArrayList<>();
+            ArrayList<MedicamentoModelo> listaMedicamentosExistentes = new ArrayList<>();
             if (arquivoExistente) {
                 try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                     while (true) {
                         try {
-                            Medicamento m = (Medicamento) ois.readObject();
+                            MedicamentoModelo m = (MedicamentoModelo) ois.readObject();
                             listaMedicamentosExistentes.add(m);
                         } catch (EOFException e) {
                             break; // Fim de arquivo
@@ -262,7 +262,7 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
             listaMedicamentosExistentes.add(medicamento);
     
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-                for (Medicamento m : listaMedicamentosExistentes) {
+                for (MedicamentoModelo m : listaMedicamentosExistentes) {
                     oos.writeObject(m);
                 }
             }
@@ -275,15 +275,15 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
         }
     }
     
-    public void atualizarMedicamento(Medicamento medicamentoAlterado) {
+    public void atualizarMedicamento(MedicamentoModelo medicamentoAlterado) {
         try {
             File file = new File("Medicamentos.DAT");    
-            ArrayList<Medicamento> listaMedicamentosExistentes = new ArrayList<>();
+            ArrayList<MedicamentoModelo> listaMedicamentosExistentes = new ArrayList<>();
     
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                 while (true) {
                     try {
-                        Medicamento m = (Medicamento) ois.readObject();
+                        MedicamentoModelo m = (MedicamentoModelo) ois.readObject();
                         if (m.getId() == (medicamentoAlterado.getId())) {
                             listaMedicamentosExistentes.add(medicamentoAlterado);
                         } else {
@@ -299,7 +299,7 @@ public class MedicamentoVisao extends JFrame implements ActionListener {
     
             // Salva a lista atualizada de medicamentos
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-                for (Medicamento m : listaMedicamentosExistentes) {
+                for (MedicamentoModelo m : listaMedicamentosExistentes) {
                     oos.writeObject(m);
                 }
             }
