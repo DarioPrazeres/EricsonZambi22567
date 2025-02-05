@@ -4,14 +4,15 @@ import javax.swing.*;
 
 public class MenuPrincipalVisao extends JFrame implements ActionListener {
 
-    private JMenu menuFicheiro, menuOperacoes, menuListagens, menuUsuario, menuFornencedores, menuTabelas, menuAjuda;
+    private JMenu menuFicheiro, menuOperacoes, menuListagens, menuUsuario, menuFornencedores, menuTabelas, menuAjuda, menuDefesa;
     private JMenuItem novoMedicamentoItem, editarMedicamentoItem, eliminarMedicamentoItem, sairItem, listagemMedicamentoItem;
     private JMenuItem entradaIntem, saidaItem, stockItem;
     private JMenuItem listarCadaversItem, listarEntradasItem, listarSaidasItem;
-    private JMenuItem acessoItem, origemItem, formaFarmaceuticaItem, tipoMedicamentoItem, nacionalidadesItem, provinciasItem, municipiosItem, comunasItem;
+    private JMenuItem acessoItem, origemItem, formaFarmaceuticaItem, tipoMedicamentoItem, nacionalidadesItem, provinciasItem, municipiosItem, comunasItem, cadastroItem;
     private JMenuBar menuBar;
     private JMenuItem novoUsarioItem, editarUsarioItem, eliminarUsarioItem, listagemUsarioItem;
     private JMenuItem novoFornecedorItem, editarFornecedorItem, eliminarFornecedorItem, listagemFornecedorItem;
+    private JMenuItem paroquiaItem, diocesesItem;
 
     public MenuPrincipalVisao() {
         super("Menu Principal");
@@ -38,6 +39,7 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
         menuBar.add(menuFornencedores = new JMenu("Fornecedores"));
         menuBar.add(menuTabelas = new JMenu("Tabelas"));
         menuBar.add(menuAjuda = new JMenu("Ajuda"));
+        menuBar.add(menuDefesa = new JMenu("Defesa"));
 
         menuFicheiro.setMnemonic('F');
         menuOperacoes.setMnemonic('O');
@@ -69,15 +71,18 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
         menuTabelas.add(origemItem = new JMenuItem("Origem"));
         menuTabelas.add(formaFarmaceuticaItem = new JMenuItem("Forma Farmacêutica"));
         menuTabelas.add(tipoMedicamentoItem = new JMenuItem("Tipo Medicamento"));
-        //menuTabelas.add(nacionalidadesItem = new JMenuItem("Nacionalidades"));
-        //menuTabelas.add(provinciasItem = new JMenuItem("Provincias"));
+
+        menuTabelas.add(paroquiaItem = new JMenuItem("Paroquia"));
+        menuTabelas.add(diocesesItem = new JMenuItem("Dioceses"));
         //menuTabelas.add(municipiosItem = new JMenuItem("Municipios"));
-        //menuTabelas.add(comunasItem = new JMenuItem("Comunas"));
+
+        menuDefesa.add(cadastroItem = new JMenuItem("Cadastro"));
 
         //adicionar eventos
         acessoItem.addActionListener(this);
         novoMedicamentoItem.addActionListener(this);
         sairItem.addActionListener(this);
+        cadastroItem.addActionListener(this);
         //comunasItem.addActionListener(this);
         //nacionalidadesItem.addActionListener(this);
         saidaItem.addActionListener(this);
@@ -93,6 +98,8 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
         stockItem.addActionListener(this);
         novoUsarioItem.addActionListener(this);
         tipoMedicamentoItem.addActionListener(this);
+        paroquiaItem.addActionListener(this);
+        diocesesItem.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -147,6 +154,15 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
         }
         else if(evt.getSource() == municipiosItem){
             new MunicipioVisao();
+        }
+        else if(evt.getSource() == cadastroItem){
+            new MedicamentoVisaoEditado();
+        }
+        else if(evt.getSource() == diocesesItem){
+            new DioceseVisao();
+        }
+        else if(evt.getSource() == paroquiaItem){
+            new ParoquiaVisao();
         }
     }
 

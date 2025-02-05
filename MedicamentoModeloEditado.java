@@ -1,20 +1,25 @@
 import java.io.Serializable;
+import java.util.*;
 
-public class MedicamentoModelo implements Serializable {
+public class MedicamentoModeloEditado implements Serializable {
     private static final long serialVersionUID = 1L; 
     private static int contador = 0;
 
     private int id, quantidade;
     private String lote, nome, tipo, fabricante, condicoesDeArmazenamento,
-                   descricao, formaFarmaceutica, dosagem, origem;
+                   descricao, formaFarmaceutica, dosagem, origem, Dioceses, Paroquia;
     private float precoCompra, precoVenda;
+    private Date DateFundacao;
 
-    public MedicamentoModelo(
+    public MedicamentoModeloEditado(
         String lote, 
         int quantidade, 
         String nome, 
         String tipo, 
         String fabricante, 
+        String dioceses, 
+        String paroquia, 
+        Date dateFundacao, 
         String condicoesDeArmazenamento, 
         String descricao, 
         String formaFarmaceutica, 
@@ -35,6 +40,9 @@ public class MedicamentoModelo implements Serializable {
         this.dosagem = dosagem;
         this.precoCompra = precoCompra;
         this.precoVenda = precoVenda;
+        this.DateFundacao = dateFundacao;
+        this.Dioceses = dioceses;
+        this.Paroquia = paroquia;
     }
 
     // Métodos getters e setters
@@ -91,7 +99,15 @@ public class MedicamentoModelo implements Serializable {
     public String getOrigem(){
         return origem;
     }
-
+    public Date getDateFundacao(){
+        return DateFundacao;
+    }    
+    public String getParoquia(){
+        return Paroquia;
+    }    
+    public String getDioceses(){
+        return Dioceses;
+    }
     public void setNome(String nome){
         this.nome = nome;
     }
@@ -127,5 +143,14 @@ public class MedicamentoModelo implements Serializable {
     } 
     public void setPrecoVenda(float precoVenda){
         this.precoVenda = precoVenda;
+    }
+    public void setDateFundacao(Date value){
+        this.DateFundacao = value;
+    }
+    public void setParoquia(String value){
+        this.Paroquia = value;
+    }
+    public void setDiocese(String value){
+        this.Dioceses = value;
     }
 }
