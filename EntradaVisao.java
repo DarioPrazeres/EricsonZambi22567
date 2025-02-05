@@ -289,4 +289,8 @@ public class EntradaVisao extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar a entrada: " + e.getMessage());
         }
     }
+
+    public static void main(String[] args) {
+        new EntradaVisao();
+    }
 }

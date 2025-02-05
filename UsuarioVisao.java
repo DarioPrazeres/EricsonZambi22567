@@ -6,13 +6,14 @@ import javax.swing.*;
 
 public class UsuarioVisao extends JFrame implements ActionListener {
     private static ArrayList<UsuarioModelo> listaUsuarios = new ArrayList<>();
-    private JTextField txtEmail, txtPassword, txtUsername, txtIdAcesso;
+    private JTextField txtEmail, txtPassword, txtUsername;
+    private JComboBox<String> comboAcesso;  // ComboBox para IDs de Acesso
     private JButton btnSalvar, btnEditar;
     private UsuarioModelo usuarioParaEditar;
 
     public UsuarioVisao() {
         super("Novo Usuário");
-        setLayout(new GridLayout(5, 2));
+        setLayout(new GridLayout(6, 2));  // Agora tem 6 linhas para acomodar a combo
 
         // Adicionando campos para o novo usuário
         add(new JLabel("Email:"));
@@ -28,8 +29,11 @@ public class UsuarioVisao extends JFrame implements ActionListener {
         add(txtUsername);
 
         add(new JLabel("ID de Acesso:"));
-        txtIdAcesso = new JTextField(10);
-        add(txtIdAcesso);
+        comboAcesso = new JComboBox<>();
+        add(comboAcesso);  // Adicionando a ComboBox para IDs de Acesso
+
+        // Carregar os dados do arquivo Acesso.TAB e preencher a ComboBox
+        carregarAcessos();
 
         // Botão de salvar
         btnSalvar = new JButton("Salvar");
@@ -50,7 +54,7 @@ public class UsuarioVisao extends JFrame implements ActionListener {
 
     public UsuarioVisao(UsuarioModelo usuarioModelo) {
         super("Editar Usuário");
-        setLayout(new GridLayout(5, 2));
+        setLayout(new GridLayout(6, 2));  // Agora tem 6 linhas para acomodar a combo
 
         // Adicionando campos para editar o usuário
         add(new JLabel("Email:"));
@@ -66,8 +70,10 @@ public class UsuarioVisao extends JFrame implements ActionListener {
         add(txtUsername);
 
         add(new JLabel("ID de Acesso:"));
-        txtIdAcesso = new JTextField(String.valueOf(usuarioModelo.getIdAcesso()), 10);
-        add(txtIdAcesso);
+        comboAcesso = new JComboBox<>();
+        carregarAcessos();  // Carregar os dados do arquivo Acesso.TAB para editar
+        comboAcesso.setSelectedItem(String.valueOf(usuarioModelo.getIdAcesso()));  // Preencher com o valor atual
+        add(comboAcesso);
 
         this.usuarioParaEditar = usuarioModelo;
 
@@ -86,7 +92,7 @@ public class UsuarioVisao extends JFrame implements ActionListener {
                     usuarioParaEditar.setEmail(txtEmail.getText());
                     usuarioParaEditar.setPassword(txtPassword.getText());
                     usuarioParaEditar.setUsername(txtUsername.getText());
-                    usuarioParaEditar.setIdAcesso(Integer.parseInt(txtIdAcesso.getText()));
+                    usuarioParaEditar.setIdAcesso(Integer.parseInt((String) comboAcesso.getSelectedItem()));
 
                     // Atualiza o usuário no arquivo
                     atualizarUsuario(usuarioParaEditar);
@@ -114,7 +120,7 @@ public class UsuarioVisao extends JFrame implements ActionListener {
                 String email = txtEmail.getText();
                 String password = txtPassword.getText();
                 String username = txtUsername.getText();
-                int idAcesso = Integer.parseInt(txtIdAcesso.getText());
+                int idAcesso = Integer.parseInt((String) comboAcesso.getSelectedItem());  // Obtendo o ID de Acesso da ComboBox
 
                 // Cria um novo objeto UsuarioModelo
                 UsuarioModelo usuario = new UsuarioModelo(email, password, username, idAcesso);
@@ -129,6 +135,22 @@ public class UsuarioVisao extends JFrame implements ActionListener {
                 // Trata erros de conversão de dados numéricos
                 JOptionPane.showMessageDialog(this, "Erro: Verifique se todos os campos numéricos estão corretos.",
                         "Erro de Entrada", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    // Método para carregar os IDs de Acesso do arquivo Acesso.TAB e preencher o JComboBox
+    public void carregarAcessos() {
+        File arquivoAcesso = new File("Acesso.TAB");
+
+        if (arquivoAcesso.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(arquivoAcesso))) {
+                String linha;
+                while ((linha = reader.readLine()) != null) {
+                    comboAcesso.addItem(linha.trim());  // Adiciona os IDs de Acesso à ComboBox
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "Erro ao carregar os IDs de Acesso.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -207,5 +229,9 @@ public class UsuarioVisao extends JFrame implements ActionListener {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro ao atualizar o usuário: " + e.getMessage());
         }
+    }
+
+    public static void main(String[] args) {
+        new UsuarioVisao();
     }
 }

@@ -1,8 +1,12 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.io.*;
+import java.util.ArrayList;
 
 public class LoginVisao extends JFrame {
+
+    private static ArrayList<UsuarioModelo> listaUsuarios;
 
     public LoginVisao() {
         setTitle("Login");
@@ -42,10 +46,21 @@ public class LoginVisao extends JFrame {
         // Adicionar listener ao botão
         botaoEnviar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                new MenuPrincipalVisao();
+                String email = nomeField.getText();
+                String senha = new String(passwordField.getPassword());
+
+                // Validar as credenciais do usuário
+                if (validarCredenciais(email, senha)) {
+                    dispose();
+                    new MenuPrincipalVisao();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Credenciais inválidas. Tente novamente.");
+                }
             }
         });
+
+        // Carregar lista de usuários do arquivo
+        carregarUsuarios();
 
         // Define o tamanho da janela
         setSize(500, 450);
@@ -54,9 +69,36 @@ public class LoginVisao extends JFrame {
         setVisible(true);
     }
 
+    // Método para carregar os usuários do arquivo
+    private void carregarUsuarios() {
+        listaUsuarios = new ArrayList<>();
+        File arquivo = new File("Usuarios.DAT");
+
+        if (arquivo.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivo))) {
+                while (true) {
+                    UsuarioModelo usuario = (UsuarioModelo) ois.readObject();
+                    listaUsuarios.add(usuario);
+                }
+            } catch (EOFException e) {
+                // Fim do arquivo
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Método para validar as credenciais
+    private boolean validarCredenciais(String email, String senha) {
+        for (UsuarioModelo usuario : listaUsuarios) {
+            if (usuario.getEmail().equals(email) && usuario.getPassword().equals(senha)) {
+                return true;  // Usuário encontrado e senha correta
+            }
+        }
+        return false;  // Credenciais inválidas
+    }
+
     public static void main(String[] args) {
         new LoginVisao();
     }
 }
-
-

@@ -8,7 +8,7 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
     private JMenuItem novoMedicamentoItem, editarMedicamentoItem, eliminarMedicamentoItem, sairItem, listagemMedicamentoItem;
     private JMenuItem entradaIntem, saidaItem, stockItem;
     private JMenuItem listarCadaversItem, listarEntradasItem, listarSaidasItem;
-    private JMenuItem acessoMorteItem, origemMorteItem, formaFarmaceuticaItem, tipoMedicamentoItem, nacionalidadesItem, provinciasItem, municipiosItem, comunasItem;
+    private JMenuItem acessoItem, origemItem, formaFarmaceuticaItem, tipoMedicamentoItem, nacionalidadesItem, provinciasItem, municipiosItem, comunasItem;
     private JMenuBar menuBar;
     private JMenuItem novoUsarioItem, editarUsarioItem, eliminarUsarioItem, listagemUsarioItem;
     private JMenuItem novoFornecedorItem, editarFornecedorItem, eliminarFornecedorItem, listagemFornecedorItem;
@@ -60,19 +60,19 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
 
         //menuUsuario
         menuUsuario.add(novoUsarioItem = new JMenuItem("Novo Usuário"));
-        menuUsuario.add(editarUsarioItem = new JMenuItem("Editar Usuário"));
-        menuUsuario.add(eliminarUsarioItem = new JMenuItem("Eliminar Usuário"));
+        //menuUsuario.add(editarUsarioItem = new JMenuItem("Editar Usuário"));
+        //menuUsuario.add(eliminarUsarioItem = new JMenuItem("Eliminar Usuário"));
         menuUsuario.add(listagemUsarioItem = new JMenuItem("Listagem de Usuário"));
 
         //menuFornecedor
         menuFornencedores.add(novoFornecedorItem = new JMenuItem("Novo Fornecedores"));
-        menuFornencedores.add(editarFornecedorItem = new JMenuItem("Editar Fornecedores"));
-        menuFornencedores.add(eliminarFornecedorItem = new JMenuItem("Eliminar Fornecedores"));
+        //menuFornencedores.add(editarFornecedorItem = new JMenuItem("Editar Fornecedores"));
+        //menuFornencedores.add(eliminarFornecedorItem = new JMenuItem("Eliminar Fornecedores"));
         menuFornencedores.add(listagemFornecedorItem = new JMenuItem("Listagem de Fornecedores"));
 
         //adicionar tabelas
-        menuTabelas.add(acessoMorteItem = new JMenuItem("Acesso"));
-        menuTabelas.add(origemMorteItem = new JMenuItem("Origem"));
+        menuTabelas.add(acessoItem = new JMenuItem("Acesso"));
+        menuTabelas.add(origemItem = new JMenuItem("Origem"));
         menuTabelas.add(formaFarmaceuticaItem = new JMenuItem("Forma Farmacêutica"));
         menuTabelas.add(tipoMedicamentoItem = new JMenuItem("Tipo Medicamento"));
         menuTabelas.add(nacionalidadesItem = new JMenuItem("Nacionalidades"));
@@ -83,7 +83,7 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
         //adicionar eventos
         novoMedicamentoItem.addActionListener(this);
         sairItem.addActionListener(this);
-        acessoMorteItem.addActionListener(this);
+        acessoItem.addActionListener(this);
         listagemMedicamentoItem.addActionListener(this);
     }
 
@@ -111,10 +111,34 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
             new ListagemUsuarioVisao();
         }    
         else if(evt.getSource() == novoFornecedorItem){
-            new FornencedorVisao();
+            new FornecedorVisao();
         }
         else if (evt.getSource() == listagemFornecedorItem) {
-            new ListagemFornencedorVisao();
+            new ListagemFornecedores();
+        }        
+        else if (evt.getSource() == acessoItem) {
+            new AcessoVisao();
+        }        
+        else if (evt.getSource() == origemItem) {
+            new OrigemVisao();
+        }        
+        else if (evt.getSource() == formaFarmaceuticaItem) {
+            new FormaFarmaceuticaVisao();
+        }
+        else if (evt.getSource() == tipoMedicamentoItem) {
+            new TipoMedicamentoVisao();
+        }
+        else if (evt.getSource() == nacionalidadesItem) {
+            new NacionalidadeVisao();
+        }
+        else if (evt.getSource() == comunasItem) {
+            new ComunaVisao();
+        }
+        else if (evt.getSource() == provinciasItem) {
+            new ProvinciaVisao();
+        }
+        else if(evt.getSource() == municipiosItem){
+            new MunicipioVisao();
         }
     }
 
