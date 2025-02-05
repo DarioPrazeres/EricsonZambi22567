@@ -47,8 +47,6 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
 
         //menuFicheiro
         menuFicheiro.add(novoMedicamentoItem = new JMenuItem("Novo Medicamento"));
-        //menuFicheiro.add(editarMedicamentoItem = new JMenuItem("Editar Medicamento"));
-        //menuFicheiro.add(eliminarMedicamentoItem = new JMenuItem("Eliminar Medicamento"));
         menuFicheiro.add(listagemMedicamentoItem = new JMenuItem("Listagens Medicamento"));
         menuFicheiro.addSeparator();
         menuFicheiro.add(sairItem = new JMenuItem("Sair da aplicacao"));
@@ -60,14 +58,10 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
 
         //menuUsuario
         menuUsuario.add(novoUsarioItem = new JMenuItem("Novo Usuário"));
-        //menuUsuario.add(editarUsarioItem = new JMenuItem("Editar Usuário"));
-        //menuUsuario.add(eliminarUsarioItem = new JMenuItem("Eliminar Usuário"));
         menuUsuario.add(listagemUsarioItem = new JMenuItem("Listagem de Usuário"));
 
         //menuFornecedor
         menuFornencedores.add(novoFornecedorItem = new JMenuItem("Novo Fornecedores"));
-        //menuFornencedores.add(editarFornecedorItem = new JMenuItem("Editar Fornecedores"));
-        //menuFornencedores.add(eliminarFornecedorItem = new JMenuItem("Eliminar Fornecedores"));
         menuFornencedores.add(listagemFornecedorItem = new JMenuItem("Listagem de Fornecedores"));
 
         //adicionar tabelas
@@ -81,10 +75,24 @@ public class MenuPrincipalVisao extends JFrame implements ActionListener {
         menuTabelas.add(comunasItem = new JMenuItem("Comunas"));
 
         //adicionar eventos
+        acessoItem.addActionListener(this);
         novoMedicamentoItem.addActionListener(this);
         sairItem.addActionListener(this);
-        acessoItem.addActionListener(this);
+        comunasItem.addActionListener(this);
+        nacionalidadesItem.addActionListener(this);
+        saidaItem.addActionListener(this);
+        entradaIntem.addActionListener(this);
+        formaFarmaceuticaItem.addActionListener(this);
+        origemItem.addActionListener(this);
+        municipiosItem.addActionListener(this);
         listagemMedicamentoItem.addActionListener(this);
+        listagemUsarioItem.addActionListener(this);
+        listagemFornecedorItem.addActionListener(this);
+        novoFornecedorItem.addActionListener(this);
+        provinciasItem.addActionListener(this);
+        stockItem.addActionListener(this);
+        novoUsarioItem.addActionListener(this);
+        tipoMedicamentoItem.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent evt) {

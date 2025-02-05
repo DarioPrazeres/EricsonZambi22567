@@ -298,4 +298,7 @@ public class SaidaVisao extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar a saída: " + e.getMessage());
         }
     }
+    public static void main(String[] args) {
+        new SaidaVisao();
+    }
 }
